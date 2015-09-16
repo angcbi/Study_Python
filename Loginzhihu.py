@@ -21,8 +21,8 @@ class ZH():
         self.indexUrl='http://www.zhihu.com/people/angcbi/'
         self.data={
             'remember_me':'true',
-            'email':'angcbi@126.com',
-            'password':'jiang!(*('
+            'email':'useranme',
+            'password':'password'
         }
         self.cj=cookiejar.CookieJar()
         self.opener=request.build_opener(request.HTTPCookieProcessor(self.cj))

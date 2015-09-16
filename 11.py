@@ -39,9 +39,9 @@ def post_data(captcha,xsrf):
     headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:14.0) Gecko/20100101 Firefox/14.0.1',
                'Referer' : 'http:www.zhihu.com'}
     postData = {'_xsrf' : xsrf,
-                'password' : 'jiang!(*(',
+                'password' : 'password',
                 'captcha' : captcha,
-                'email' : 'angcbi@126.com',
+                'email' : 'useranme',
                 'remember_me' : 'true',
                 }
 
