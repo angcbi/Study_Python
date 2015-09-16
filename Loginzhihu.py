@@ -12,8 +12,8 @@ class ZH():
         self.url1='http://www.zhihu.com/captcha.gif'
         self.data={
             'remember_me':'true',
-            'email':'angcbi@126.com',
-            'password':'jiang!(*('
+            'email':'username',
+            'password':'password'
         }
 
     def createOpener(self):
