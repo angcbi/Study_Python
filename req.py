@@ -9,7 +9,7 @@ import time
 
 class Movie():
     def __init__(self):
-        self.pageIndex=1
+        self.pageIndex=40
         self.url='http://www.109ys.com/member.php?mod=logging&action=login'
         self.headers={'User-Agent':'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko'}
         self.q=queue.Queue()
@@ -49,8 +49,8 @@ class Movie():
             'answer':'',
             'loginfield':'username',
             'cookietime':2592000,
-            'username':'username',
-            'password':'password',
+            'username':'xiaobeiwd',
+            'password':'jiang179660',
             'formhas':formhash,
         }
         url='http://www.109ys.com/member.php?mod=logging&action=login&loginsubmit=yes&loginhash='+str(loginhash).upper()+'&inajax=1'
@@ -68,7 +68,6 @@ class Movie():
         formhash=re.findall('<input type=".*?name="formhash.*?value="(.*?)"',r.text,re.S)
         formhash=formhash[0]
         tid=re.search('tid=(.*?)&',url).group(1)
-        print(title)
         replyurl='http://www.109ys.com/forum.php?mod=post&action=reply&replysubmit=yes&fid=40&tid='+str(tid)+'&inajax=1'+'&infloat=yes'
         data={
             'wysiwyg':'1',
@@ -87,6 +86,7 @@ class Movie():
         # title=re.findall('<h1 class="ts">(.*?)<span id="thread.*?>(.*?)</span>.*?alt=.*?title=.*?:(.*?)" />',r.text,re.S)
         hot=re.findall(r'title="热度:(.*?)"',r.text,re.S)
         downloadlink=re.findall('<div class="showhide.*?href="(.*?)"',r.text,re.S)
+        print(len(hot),len(downloadlink))
         print('类型：%s\t热度:%s\n%s\n下载链接: %s' %(title[0].strip(),hot[0].strip(),title[2].strip(),downloadlink[0].strip()))
         # print('类型：%s\t热度:%s\n%s:' %(title[0].strip(),hot[0].strip(),title[2].strip()))
 
