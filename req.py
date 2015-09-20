@@ -4,18 +4,33 @@ import requests
 import re
 import queue
 import time
+from mysql import connector
 
-#http://www.109ys.com/forum.php?mod=post&action=reply&fid=40&tid=7488&infloat=yes&handlekey=reply&inajax=1&ajaxtarget=fwin_content_reply
+class  db():
+    def __init__(self,username,password,database):
+        self.conn=connector.connect(user=username,password=password,database=database)
+        self.cursor=self.conn.cursor()
+
+    def insert(self,movie):
+        try :
+            self.cursor.execute('insert into mm values(%s, %s, %s, %s, %s)',movie)
+            self.conn.commit()
+        except connector.Error as e :
+            print('插入失败！',e)
+    def close(self):
+        self.cursor.close()
+        self.conn.commit
 
 class Movie():
     def __init__(self):
-        self.pageIndex=40
+        self.pageIndex=1
         self.url='http://www.109ys.com/member.php?mod=logging&action=login'
         self.headers={'User-Agent':'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko'}
         self.q=queue.Queue()
         self.s=requests.Session()
         self.ss=set()
-
+        self.db=db('movie','movie','movie')
+        self.num=0
 
     def getPage(self):
         try:
@@ -49,8 +64,8 @@ class Movie():
             'answer':'',
             'loginfield':'username',
             'cookietime':2592000,
-            'username':'xiaobeiwd',
-            'password':'jiang179660',
+            'username':'wanggang555',
+            'password':'wanggang555',
             'formhas':formhash,
         }
         url='http://www.109ys.com/member.php?mod=logging&action=login&loginsubmit=yes&loginhash='+str(loginhash).upper()+'&inajax=1'
@@ -86,11 +101,15 @@ class Movie():
         # title=re.findall('<h1 class="ts">(.*?)<span id="thread.*?>(.*?)</span>.*?alt=.*?title=.*?:(.*?)" />',r.text,re.S)
         hot=re.findall(r'title="热度:(.*?)"',r.text,re.S)
         downloadlink=re.findall('<div class="showhide.*?href="(.*?)"',r.text,re.S)
-        print(len(hot),len(downloadlink))
+        if len(hot)== 0:
+            hot="无"
+        if len(downloadlink)==0:
+            downloadlink='无'
         print('类型：%s\t热度:%s\n%s\n下载链接: %s' %(title[0].strip(),hot[0].strip(),title[2].strip(),downloadlink[0].strip()))
-        # print('类型：%s\t热度:%s\n%s:' %(title[0].strip(),hot[0].strip(),title[2].strip()))
+        self.num+=1
+        return [self.num,title[0].strip(),hot[0].strip(),title[2].strip(),downloadlink[0].strip()]
 
-    def start(self):
+    def run(self):
         self.login()
         self.getItems()
         while self.q.qsize()>0 :
@@ -98,11 +117,13 @@ class Movie():
             if title not in self.ss:
                 self.ss.add(title)
                 time.sleep(16)
-                self.replyTitle(title)
-            # self.getItems()
+                movie=self.replyTitle(title)
+                self.db.insert(movie)
+            self.getItems()
+        self.db.close()
 
 
 
 m=Movie()
-m.start()
+m.run()
 
