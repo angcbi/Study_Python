@@ -1,4 +1,9 @@
 # -*- coding:utf-8 -*-
+'''
+login zhihu.com need cookie and post twice
+'''
+
+
 from  urllib import  request,parse
 import http.cookiejar
 import re

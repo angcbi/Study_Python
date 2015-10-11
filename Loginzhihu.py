@@ -1,9 +1,12 @@
 # -*- coding:utf-8 -*-
+'''
+登录知乎，cookie保存登录信息；下载验证码并手动输入；需要POST登录数据两次到登录地址，第一次即使验证码正确也无法登录
+'''
+
 from urllib import request,parse
 from http import cookiejar
 import re
 import time
-
 
 class ZH():
     def __init__(self):
