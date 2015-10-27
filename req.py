@@ -23,7 +23,7 @@ class  db():
 
 class Movie():
     def __init__(self):
-        self.pageIndex=1
+        self.pageIndex=33
         self.url='http://www.109ys.com/member.php?mod=logging&action=login'
         self.headers={'User-Agent':'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko'}
         self.q=queue.Queue()
