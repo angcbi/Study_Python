@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
-
+'''
+ Get movies links from www.109ys.com saved to mysql
+'''
 import requests
 import re
 import queue
